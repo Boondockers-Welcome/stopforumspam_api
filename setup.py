@@ -20,5 +20,6 @@ setup(name="stopforumspam-api",
       author_email="stephen.paulger@newspeak.org.uk",
       version="0.0.1",
       packages=packages,
-      classifiers=CLASSIFIERS
+      classifiers=CLASSIFIERS,
+      include_package_data=True
 )
