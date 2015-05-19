@@ -31,6 +31,7 @@ class ApiResponse(object):
     def __init__(self, response_json):
         self.response = response_json
 
+    @property
     def success(self):
         return self.response.get("success", 0) == 1
 
