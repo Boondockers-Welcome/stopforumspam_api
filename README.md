@@ -8,7 +8,13 @@ At present only querying facilities are provided, I may add an interface for add
 Alternatives
 ============
 
-If you're using Django you may wish to use the the more mature [stopforumspam](https://github.com/benjaoming/django-stopforumspam).
+If you're using Django you may wish to use the the more mature [django-stopforumspam](https://github.com/benjaoming/django-stopforumspam).
+
+
+Installation
+============
+
+    pip install stopforumspam_api
 
 
 Example
@@ -16,13 +22,13 @@ Example
 
 ```python
 >>> from stopforumspam_api import query
->>> r=query(ip="199.115.114.220")
->>> r.appears()
+>>> response = query(ip="199.115.114.220")
+>>> respone.appears()
 True
->>> r.ip.appears
+>>> response.ip.appears
 True
->>> r.ip.frequency
+>>> response.ip.frequency
 17
->>> r.ip.lastseen
+>>> response.ip.lastseen
 datetime.datetime(2015, 5, 5, 20, 32, 35)
 ```
