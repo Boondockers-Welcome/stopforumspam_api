@@ -60,7 +60,7 @@ class ApiResponse(object):
         return func((self.ip.lastseen, self.email.lastseen, self.username.lastseen))
         
 
-def query(ip=None, email=None, username=None):
+def query(ip=None, email=None, username=None, api_url=API):
     if not any((ip, email, username)):
         raise Exception("No query data supplied")
 
@@ -71,7 +71,10 @@ def query(ip=None, email=None, username=None):
         params["email"] = email
     if username:
         params["username"] = username
-
-    response = requests.get(API, params=params).json()
+    
+    try:
+        response = requests.get(api_url, params=params).json()
+    except requests.exceptions.ConnectionError:
+        response = {}
 
     return ApiResponse(response)
