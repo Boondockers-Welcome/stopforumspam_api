@@ -1,7 +1,8 @@
 import requests
 from datetime import datetime
 
-API = "http://api.stopforumspam.org/api"
+QUERY_API = "http://api.stopforumspam.org/api"
+REPORT_API = "https://www.stopforumspam.com/add"
 
 
 class ApiResponseSection(object):
@@ -61,7 +62,7 @@ class ApiResponse(object):
         return func((self.ip.lastseen, self.email.lastseen, self.username.lastseen))
         
 
-def query(ip=None, email=None, username=None, api_url=API):
+def query(ip=None, email=None, username=None, api_url=QUERY_API):
     if not any((ip, email, username)):
         raise Exception("No query data supplied")
 
@@ -79,3 +80,14 @@ def query(ip=None, email=None, username=None, api_url=API):
         response = {}
 
     return ApiResponse(response)
+
+
+def report(ip, email, username, key, evidence=None, api_url=REPORT_API):
+    params = dict(ip=ip, email=email, username=username, api_key=key)
+
+    if evidence:
+        params["evidence"] = evidence
+
+    response = requests.post(api_url, data=params)
+
+    return response.status_code == 200

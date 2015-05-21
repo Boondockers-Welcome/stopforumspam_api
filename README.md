@@ -2,7 +2,9 @@ Overview
 =======
 
 Designed to be a very basic but easy to use interface to the StopForumSpam API.
-At present only querying facilities are provided, I may add an interface for adding data to StopForumSpam.
+You can use this the query StopForumSpam and, provided you have a key, add data to the database too.
+
+It is important to read and understand StopForumSpam's terms before using this software.
 
 
 Alternatives
