@@ -48,10 +48,16 @@ class ApiResponse(object):
     def username(self):
         return ApiResponseSection(self.response.get("username", None))
 
-    def confidence(self, func=max):
+    def sfsmax(*args):
+        try:
+            return max(a for a in args if a is not None)
+        except ValueError:
+            return None
+
+    def confidence(self, func=sfsmax):
         return func(self.ip.confidence, self.email.confidence, self.username.confidence)
 
-    def frequency(self, func=max):
+    def frequency(self, func=sfsmax):
         return func(self.ip.frequency, self.email.frequency, self.username.frequency)
 
     def lastseen(self, func=max):
@@ -60,9 +66,9 @@ class ApiResponse(object):
 
     def appears(self, func=any):
         return func((self.ip.lastseen, self.email.lastseen, self.username.lastseen))
-        
 
-def query(ip=None, email=None, username=None, api_url=QUERY_API):
+
+def query(ip=None, email=None, username=None, api_url=QUERY_API, expire=None):
     if not any((ip, email, username)):
         raise Exception("No query data supplied")
 
@@ -73,7 +79,9 @@ def query(ip=None, email=None, username=None, api_url=QUERY_API):
         params["email"] = email
     if username:
         params["username"] = username
-    
+    if expire:
+        params["expire"] = expire
+
     try:
         response = requests.get(api_url, params=params).json()
     except requests.exceptions.ConnectionError:
